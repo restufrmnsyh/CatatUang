@@ -2,9 +2,8 @@
 
 Aplikasi web pencatat keuangan pribadi untuk mahasiswa. Dibangun dengan HTML, JavaScript ES6+ vanilla, dan Tailwind CSS — tanpa backend, semua data tersimpan di `localStorage`.
 
-[![Tests](https://img.shields.io/badge/tests-69%20passed-brightgreen)](#pengujian)
-[![Coverage](https://img.shields.io/badge/coverage-87%25%20functions-green)](#pengujian)
-[![PWA](https://img.shields.io/badge/PWA-ready-blue)](#pwa--offline)
+[![Tests](https://img.shields.io/badge/tests-69%20passed-brightgreen)](#cara-menjalankan-test)
+[![Coverage](https://img.shields.io/badge/coverage-87%25%20functions-green)](#cara-menjalankan-test)
 
 ---
 
@@ -24,7 +23,6 @@ Aplikasi web pencatat keuangan pribadi untuk mahasiswa. Dibangun dengan HTML, Ja
 | **Import** | JSON & CSV dengan validasi baris per baris, mode merge/replace |
 | **Dark mode** | Sistem / terang / gelap — tersimpan di preferensi |
 | **Kategori kustom** | Tambah & hapus kategori pemasukan/pengeluaran |
-| **PWA** | Dapat diinstal ke home screen, berjalan offline |
 
 ---
 
@@ -48,12 +46,6 @@ Aplikasi web pencatat keuangan pribadi untuk mahasiswa. Dibangun dengan HTML, Ja
 ```
 Project-IBM-FinancialRecord/
 ├── index.html              # Markup utama + tab UI
-├── manifest.json           # PWA manifest
-├── sw.js                   # Service Worker (cache-first)
-├── generate-icons.js       # Script buat icon SVG (run sekali)
-├── icons/
-│   ├── icon-192.svg
-│   └── icon-512.svg
 ├── js/
 │   ├── app.js              # Entry point: event listeners, init
 │   ├── schema.js           # Versi skema + migrasi localStorage
@@ -86,16 +78,22 @@ Project-IBM-FinancialRecord/
 
 ## Cara Menjalankan
 
-### Prasyarat
+### 🌐 Online (GitHub Pages)
+
+Langsung buka di browser tanpa instalasi apapun:
+
+**https://restufrmnsyh.github.io/CatatUang/**
+
+### Prasyarat (Local)
 - Browser modern (Chrome 90+, Firefox 90+, Safari 15+)
 - Python 3 atau VS Code + Live Server extension
 
-### Development
+### Development (Local)
 ```bash
 # Clone atau buka folder project
 cd Project-IBM-FinancialRecord
 
-# Jalankan local HTTP server (wajib untuk ES modules + SW)
+# Jalankan local HTTP server (wajib untuk ES modules)
 python -m http.server 8080
 
 # Atau dengan VS Code:
@@ -104,7 +102,7 @@ python -m http.server 8080
 
 Buka **http://localhost:8080** di browser.
 
-> ⚠️ Jangan buka `index.html` langsung via `file://` — ES modules dan Service Worker tidak bekerja di protokol `file://`.
+> ⚠️ Jangan buka `index.html` langsung via `file://` — ES modules tidak bekerja di protokol `file://`.
 
 ---
 
@@ -150,20 +148,6 @@ npm run lint:fix
 # Format semua file
 npm run format
 ```
-
----
-
-## PWA / Offline
-
-Aplikasi mendukung instalasi sebagai PWA:
-
-1. Buka di browser mobile (Chrome/Edge/Safari)
-2. Tap menu → "Tambahkan ke layar utama"
-3. Setelah diinstal, aplikasi berjalan offline (data di `localStorage`)
-
-Service Worker menggunakan strategi:
-- **Navigasi HTML**: Network-first → fallback ke cache
-- **Aset JS/CSS/CDN**: Cache-first → update di background
 
 ---
 
@@ -220,4 +204,4 @@ Project ini dibuat sebagai capstone project. Untuk mengembangkan lebih lanjut:
 
 ---
 
-*Dibuat oleh Muhammad Restu Firmansyah — 123240050*
+*Dibuat oleh Muhammad Restu Firmansyah — UPN "Veteran" Yogyakarta*

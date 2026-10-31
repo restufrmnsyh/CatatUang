@@ -3,10 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#2563eb" />
   <meta name="description" content="Pencatat keuangan pribadi untuk mahasiswa — catat pemasukan, pengeluaran, budget, dan target tabungan." />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="apple-touch-icon" href="icons/icon-192.svg" />
   <title>CatatUang — Pencatat Keuangan Pribadi</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -513,15 +510,5 @@
   </nav>
 
   <script type="module" src="js/app.js"></script>
-  <script>
-    // Register Service Worker for PWA offline support
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').catch(() => {
-          // SW registration failed (e.g. file:// protocol) — app still works online
-        });
-      });
-    }
-  </script>
 </body>
 </html>
