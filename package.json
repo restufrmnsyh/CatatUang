@@ -1,0 +1,22 @@
+{
+  "name": "catat-uang",
+  "version": "1.0.0",
+  "description": "Pencatat keuangan pribadi untuk mahasiswa",
+  "type": "module",
+  "scripts": {
+    "dev": "python -m http.server 8080",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint js/**/*.js",
+    "lint:fix": "eslint js/**/*.js --fix",
+    "format": "prettier --write \"js/**/*.js\" \"*.html\" \"*.json\""
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@vitest/coverage-v8": "^1.6.1",
+    "eslint": "^9.39.5",
+    "prettier": "^3.9.10",
+    "vitest": "^1.6.1"
+  }
+}

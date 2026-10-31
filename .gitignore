@@ -1,0 +1,16 @@
+﻿# Dependencies
+node_modules/
+
+# Test coverage output
+coverage/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+*.local
+
+# Build artifacts
+dist/
