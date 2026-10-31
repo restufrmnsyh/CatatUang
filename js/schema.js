@@ -102,6 +102,18 @@ export function migrate() {
   if (!localStorage.getItem(KEY_DARK_MODE))   localStorage.setItem(KEY_DARK_MODE,   'system');
 }
 
+/**
+ * Reset data pengguna tanpa mengubah versi skema atau preferensi tampilan.
+ */
+export function resetAppData() {
+  localStorage.setItem(KEY_TX, JSON.stringify([]));
+  localStorage.setItem(KEY_BUDGETS, JSON.stringify([]));
+  localStorage.setItem(KEY_SAVINGS, JSON.stringify([]));
+  localStorage.setItem(KEY_RECURRING, JSON.stringify([]));
+  localStorage.setItem(KEY_CUSTOM_CATS, JSON.stringify({ income: [], expense: [] }));
+  localStorage.removeItem(KEY_TX_OLD);
+}
+
 /** Kembalikan versi skema aktif */
 export function getSchemaVersion() {
   return readVersion();

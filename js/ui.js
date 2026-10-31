@@ -51,28 +51,28 @@ export function renderStats(stats) {
   };
 
   el.innerHTML = `
-    <div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
-      <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4">
+    <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3">
+      <div class="min-w-0 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-3 sm:p-4">
         <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Pemasukan</p>
-        <p class="font-bold text-green-600">${formatRupiah(income)}</p>
+        <p class="text-sm sm:text-base font-bold text-green-600 break-words">${formatRupiah(income)}</p>
         ${pctBadge(incomePct, false)}
       </div>
-      <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4">
+      <div class="min-w-0 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-3 sm:p-4">
         <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Pengeluaran</p>
-        <p class="font-bold text-red-600">${formatRupiah(expense)}</p>
+        <p class="text-sm sm:text-base font-bold text-red-600 break-words">${formatRupiah(expense)}</p>
         ${pctBadge(expensePct, true)}
       </div>
-      <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 col-span-2 sm:col-span-1">
+      <div class="col-span-2 min-w-0 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-3 sm:col-span-1 sm:p-4">
         <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Saldo Bulan Ini</p>
-        <p class="font-bold ${balance >= 0 ? 'text-blue-600' : 'text-red-600'}">${formatRupiah(balance)}</p>
+        <p class="text-sm sm:text-base font-bold break-words ${balance >= 0 ? 'text-blue-600' : 'text-red-600'}">${formatRupiah(balance)}</p>
       </div>
-      <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4">
+      <div class="col-span-2 min-w-0 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-3 sm:col-span-1 sm:p-4">
         <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Rata-rata Pengeluaran/Hari</p>
-        <p class="font-semibold text-gray-800 dark:text-gray-100">${formatRupiah(Math.round(dailyAvg))}</p>
+        <p class="text-sm sm:text-base font-semibold text-gray-800 dark:text-gray-100 break-words">${formatRupiah(Math.round(dailyAvg))}</p>
       </div>
-      <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 col-span-2 sm:col-span-2">
+      <div class="col-span-2 min-w-0 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-3 sm:col-span-2 sm:p-4">
         <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Kategori Terbesar</p>
-        <p class="font-semibold text-gray-800 dark:text-gray-100">
+        <p class="text-sm sm:text-base font-semibold text-gray-800 dark:text-gray-100 break-words">
           ${biggestCat
             ? `${escapeHtml(biggestCat.category)} <span class="text-red-500">(${formatRupiah(biggestCat.amount)})</span>`
             : '<span class="text-gray-400">–</span>'}
@@ -105,7 +105,7 @@ export function renderBudgetList(progressList, onDelete) {
     const badgeColor = status === 'over'  ? 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300'
                      : status === 'warn'  ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300'
                      : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300';
-    const badge = status === 'over' ? '⚠️ Melebihi batas' : status === 'warn' ? '⚠️ Hampir habis' : '';
+    const badge = status === 'over' ? 'Melebihi batas' : status === 'warn' ? 'Hampir habis' : '';
 
     return `
       <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4">
@@ -150,7 +150,7 @@ export function renderSavingsList(progressList, onDelete) {
 
   el.innerHTML = progressList.map(({ goal, saved, pct, remaining, estimatedDate, willMeetDeadline }) => {
     const estText = estimatedDate
-      ? `Estimasi selesai: ${formatDate(estimatedDate)} ${willMeetDeadline === false ? '⚠️ Mungkin terlambat' : willMeetDeadline ? '✅' : ''}`
+      ? `Estimasi selesai: ${formatDate(estimatedDate)}${willMeetDeadline === false ? ' · Mungkin terlambat' : ''}`
       : 'Tidak cukup data untuk estimasi';
 
     return `
@@ -242,15 +242,15 @@ export function renderInsights(insights) {
   }
 
   const cfg = {
-    warning: { icon: '⚠️', cls: 'bg-yellow-50 border-yellow-300 text-yellow-800 dark:bg-yellow-900/30 dark:border-yellow-600 dark:text-yellow-300' },
-    info:    { icon: 'ℹ️', cls: 'bg-blue-50 border-blue-200 text-blue-800 dark:bg-blue-900/30 dark:border-blue-600 dark:text-blue-300' },
-    success: { icon: '✅', cls: 'bg-green-50 border-green-200 text-green-800 dark:bg-green-900/30 dark:border-green-600 dark:text-green-300' },
+    warning: { icon: '!', cls: 'bg-yellow-50 border-yellow-300 text-yellow-800 dark:bg-yellow-900/30 dark:border-yellow-600 dark:text-yellow-300' },
+    info:    { icon: 'i', cls: 'bg-gray-50 border-gray-200 text-gray-700 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300' },
+    success: { icon: '✓', cls: 'bg-green-50 border-green-200 text-green-800 dark:bg-green-900/30 dark:border-green-600 dark:text-green-300' },
   };
 
   el.innerHTML = insights.map(({ type, text }) => {
     const { icon, cls } = cfg[type] ?? cfg.info;
-    return `<div class="flex gap-2 border rounded-lg px-3 py-2 text-sm ${cls}">
-      <span>${icon}</span>
+    return `<div class="flex items-start gap-2 border rounded-lg px-3 py-2 text-sm ${cls}">
+      <span class="insight-mark mt-0.5">${icon}</span>
       <span>${escapeHtml(text)}</span>
     </div>`;
   }).join('');
@@ -304,7 +304,7 @@ export function renderTransactions(transactions, onEdit, onDelete) {
   transactions.forEach(tx => {
     const isIncome = tx.type === 'income';
     const card = document.createElement('div');
-    card.className = 'bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center gap-3';
+    card.className = 'transaction-card bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center gap-3';
     card.dataset.id = tx.id;
 
     card.innerHTML = `
@@ -359,7 +359,7 @@ export function renderEmptyState(reason, onSeed) {
   if (reason === 'no-data') {
     el.innerHTML = `
       <div class="py-10 text-center">
-        <p class="text-4xl mb-3">📋</p>
+        <p class="eyebrow mb-2">Mulai dari sini</p>
         <p class="font-medium text-gray-700 dark:text-gray-200 mb-1">Belum ada transaksi</p>
         <p class="text-sm text-gray-400 mb-4">Tambahkan transaksi pertama kamu, atau coba data contoh.</p>
         <button id="btn-seed" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
@@ -370,7 +370,7 @@ export function renderEmptyState(reason, onSeed) {
   } else {
     el.innerHTML = `
       <div class="py-10 text-center">
-        <p class="text-4xl mb-3">🔍</p>
+        <p class="eyebrow mb-2">Pencarian</p>
         <p class="font-medium text-gray-700 dark:text-gray-200 mb-1">Tidak ada hasil</p>
         <p class="text-sm text-gray-400">Coba ubah filter atau kata kunci pencarian.</p>
       </div>`;

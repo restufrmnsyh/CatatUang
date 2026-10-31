@@ -38,7 +38,7 @@ export function applyDarkMode() {
 function updateToggleButton(pref) {
   const btn = document.getElementById('btn-dark-toggle');
   if (!btn) return;
-  const labels = { system: '🖥 Sistem', on: '🌙 Gelap', off: '☀️ Terang' };
+  const labels = { system: 'Sistem', on: 'Gelap', off: 'Terang' };
   btn.textContent = labels[pref] ?? labels.system;
 }
 

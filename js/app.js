@@ -8,7 +8,7 @@ import { initToast, showToast } from './toast.js';
 initToast();
 
 // ── 1. Migrasi skema (harus pertama, sebelum modul lain membaca localStorage) ─
-import { migrate } from './schema.js';
+import { migrate, resetAppData } from './schema.js';
 migrate();
 
 // ── 2. Dark mode (terapkan sebelum render agar tidak flash) ───────────────────
@@ -471,6 +471,43 @@ document.getElementById('btn-export-csv')?.addEventListener('click', () => {
   showToast('Transaksi diekspor sebagai CSV.', 'success');
 });
 
+const resetDialog = document.getElementById('reset-confirm-dialog');
+document.getElementById('btn-reset-data')?.addEventListener('click', () => {
+  resetDialog.returnValue = '';
+  resetDialog.showModal();
+});
+
+resetDialog?.addEventListener('close', () => {
+  if (resetDialog.returnValue !== 'reset') return;
+
+  try {
+    resetAppData();
+    state.search = '';
+    state.type = '';
+    state.category = '';
+    state.sort = 'date-desc';
+    state.limit = PAGE_SIZE;
+    document.getElementById('search-input').value = '';
+    document.getElementById('filter-type').value = '';
+    document.getElementById('sort-select').value = state.sort;
+    document.getElementById('budget-form').reset();
+    document.getElementById('savings-form').reset();
+    document.getElementById('recurring-form').reset();
+    document.getElementById('form-add-cat-income').reset();
+    document.getElementById('form-add-cat-expense').reset();
+    resetForm();
+    syncCategoryFilter();
+    refresh();
+    refreshBudget();
+    refreshSavings();
+    refreshRecurring();
+    refreshSettings();
+    showToast('Semua data berhasil direset.', 'success');
+  } catch (err) {
+    showToast(err.message, 'error');
+  }
+});
+
 document.getElementById('import-file')?.addEventListener('change', async e => {
   const file = e.target.files[0];
   if (!file) return;
@@ -522,8 +559,8 @@ document.getElementById('form-add-cat-expense')?.addEventListener('submit', e =>
 // ─── Sync dark toggle button labels ──────────────────────────────────────────
 
 function syncDarkToggleButtons() {
-  const labels = { system: '🖥 Sistem', on: '🌙 Gelap', off: '☀️ Terang' };
-  const label  = labels[getDarkPref()] ?? '🖥 Sistem';
+  const labels = { system: 'Sistem', on: 'Gelap', off: 'Terang' };
+  const label  = labels[getDarkPref()] ?? 'Sistem';
   const h = document.getElementById('btn-dark-toggle');
   const s = document.getElementById('btn-dark-toggle-settings');
   if (h) h.textContent = label;

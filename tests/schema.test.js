@@ -14,7 +14,7 @@ vi.stubGlobal('localStorage', {
   clear:      () => { Object.keys(store).forEach(k => delete store[k]); },
 });
 
-import { migrate, getSchemaVersion, KEY_TX, KEY_BUDGETS, KEY_SAVINGS, KEY_RECURRING, KEY_CUSTOM_CATS, KEY_DARK_MODE } from '../js/schema.js';
+import { migrate, resetAppData, getSchemaVersion, KEY_TX, KEY_BUDGETS, KEY_SAVINGS, KEY_RECURRING, KEY_CUSTOM_CATS, KEY_DARK_MODE } from '../js/schema.js';
 
 beforeEach(() => {
   localStorage.clear();
@@ -67,6 +67,30 @@ describe('migrate (idempoten)', () => {
     // Data yang sudah ada tidak ditimpa
     const tx = JSON.parse(localStorage.getItem(KEY_TX));
     expect(tx[0].id).toBe('x');
+  });
+});
+
+describe('resetAppData', () => {
+  it('menghapus data pengguna dan mempertahankan preferensi tampilan', () => {
+    migrate();
+    localStorage.setItem(KEY_TX, JSON.stringify([{ id: 'tx-1' }]));
+    localStorage.setItem(KEY_BUDGETS, JSON.stringify([{ id: 'budget-1' }]));
+    localStorage.setItem(KEY_SAVINGS, JSON.stringify([{ id: 'saving-1' }]));
+    localStorage.setItem(KEY_RECURRING, JSON.stringify([{ id: 'recurring-1' }]));
+    localStorage.setItem(KEY_CUSTOM_CATS, JSON.stringify({ income: ['Bonus'], expense: ['Hobi'] }));
+    localStorage.setItem(KEY_DARK_MODE, 'on');
+    localStorage.setItem('catat_uang_transactions', JSON.stringify([{ id: 'legacy-tx' }]));
+
+    resetAppData();
+
+    expect(JSON.parse(localStorage.getItem(KEY_TX))).toEqual([]);
+    expect(JSON.parse(localStorage.getItem(KEY_BUDGETS))).toEqual([]);
+    expect(JSON.parse(localStorage.getItem(KEY_SAVINGS))).toEqual([]);
+    expect(JSON.parse(localStorage.getItem(KEY_RECURRING))).toEqual([]);
+    expect(JSON.parse(localStorage.getItem(KEY_CUSTOM_CATS))).toEqual({ income: [], expense: [] });
+    expect(localStorage.getItem('catat_uang_transactions')).toBeNull();
+    expect(localStorage.getItem(KEY_DARK_MODE)).toBe('on');
+    expect(getSchemaVersion()).toBe(2);
   });
 });
 
